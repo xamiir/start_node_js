@@ -2,7 +2,8 @@
 const express = require('express');
 
 const ownersDB = require('./owner-model');
-//const { requiredName } = require('../middleware/middleware.js');
+// const { requiredName } = require('../middleware/middleware.js');
+const {checkOwner}= require('../middleware/middleware.js');
 
 const router = express.Router();
 // module.exports = router;
@@ -26,7 +27,7 @@ router.get('/:id', async (req, res) => {
     }
 );
 // single post route for a owner by id
-router.post('/',  async (req, res) => {
+router.post('/' ,checkOwner, async (req, res) => {
     try {
         const owner = await ownersDB.add(req.body);
         res.status(201).json(owner);
@@ -36,7 +37,7 @@ router.post('/',  async (req, res) => {
 }
 );
 // single put route for a owner by id
-router.put('/:id', async (req, res) => {
+router.put('/:id',checkOwner, async (req, res) => {
     try {
         const owner = await ownersDB.update(req.params.id, req.body);
         res.status(200).json(owner);
@@ -46,7 +47,7 @@ router.put('/:id', async (req, res) => {
 }
 );
 // single delete route for a owner by id
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',checkOwner, async (req, res) => {
     try {
         const owner = await ownersDB.remove(req.params.id);
         res.status(200).json(owner);
